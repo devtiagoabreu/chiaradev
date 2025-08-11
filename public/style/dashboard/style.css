@@ -1,0 +1,699 @@
+/* ==================== CONFIGURAÇÕES GLOBAIS E VARIÁVEIS ==================== */
+:root {
+    /* Paleta de Cores da Marca Chiara Semijoias - REVISITADA */
+    --primary-color: #a9818a;
+    --sidebar-bg: #8c6a73;
+    /* Tom mais escuro e sóbrio para o fundo do menu */
+    --sidebar-hover-bg: #987079;
+    /* Tom intermediário para hover */
+    --sidebar-active-text: #ffffff;
+    --sidebar-text: #f0e9ec;
+    /* Texto ligeiramente rosado para harmonia */
+
+    --content-bg: #fbfafb;
+    /* Fundo principal levemente mais quente que o branco puro */
+    --card-bg: #ffffff;
+    --text-color: #4a4a4a;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(140, 106, 115, 0.08);
+    /* Sombra baseada na cor primária */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--content-bg);
+    color: var(--text-color);
+    transition: margin-left 0.3s ease;
+}
+
+.dashboard-container {
+    display: flex;
+}
+
+/* ==================== BARRA LATERAL (MENU) ==================== */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;
+    z-index: 100;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--sidebar-hover-bg);
+}
+
+.sidebar-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    filter: brightness(0) invert(1);
+}
+
+.sidebar-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--sidebar-active-text);
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar-nav {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.sidebar-nav ul {
+    list-style-type: none;
+    padding: 15px 0;
+}
+
+.sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 25px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s, padding-left 0.2s, border-left-width 0.2s;
+    white-space: nowrap;
+    border-left: 4px solid transparent;
+}
+
+.sidebar-nav .nav-link:hover {
+    background-color: var(--sidebar-hover-bg);
+    color: var(--sidebar-active-text);
+}
+
+.sidebar-nav .nav-link.active {
+    background-color: var(--primary-color);
+    color: var(--sidebar-active-text);
+    font-weight: 500;
+    border-left: 4px solid var(--sidebar-active-text);
+}
+
+.sidebar-nav .nav-link i {
+    font-size: 1.1rem;
+    min-width: 40px;
+    text-align: center;
+    margin-left: -5px;
+}
+
+.nav-item-group .submenu {
+    list-style: none;
+    padding-left: 0;
+    background-color: rgba(0, 0, 0, 0.15);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.nav-item-group:hover .submenu {
+    max-height: 200px;
+}
+
+.nav-item-group .submenu .nav-link {
+    padding-left: 69px;
+    /* Alinha com o texto do menu pai */
+}
+
+.nav-item-group .submenu .nav-link.active,
+.nav-item-group .submenu .nav-link:hover {
+    background-color: var(--primary-color);
+    border-left-color: var(--primary-color);
+}
+
+
+/* ESTADO RETRÁTIL DO MENU */
+body.sidebar-collapsed .sidebar {
+    width: 85px;
+}
+
+body.sidebar-collapsed .sidebar-title,
+body.sidebar-collapsed .sidebar-nav span {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+body.sidebar-collapsed .main-content {
+    margin-left: 85px;
+}
+
+body.sidebar-collapsed .nav-item-group:hover .submenu {
+    display: none;
+}
+
+
+/* ==================== CONTEÚDO PRINCIPAL ==================== */
+.main-content {
+    flex-grow: 1;
+    margin-left: 260px;
+    transition: margin-left 0.3s ease;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.menu-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.user-profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    min-width: 100px;
+    z-index: 100;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: #8C6A73;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    padding: 6px 8px;
+    text-align: left;
+}
+
+.logout-btn:hover {
+    background-color: #f8d7da;
+    color: #8C6A73;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.page-container {
+    padding: 30px;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.page-content {
+    display: none;
+}
+
+.page-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* CARDS DE KPI */
+.kpi-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+}
+
+.card-icon {
+    font-size: 2.2rem;
+    padding: 20px;
+    border-radius: 50%;
+    margin-right: 20px;
+    color: var(--primary-color);
+    background-color: #fdf8f9;
+}
+
+.card-content h3 {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.card-content p {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+/* GRÁFICOS */
+.charts-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 400px;
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+}
+
+.chart-wrapper h3 {
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* ==================== BARRA DE FERRAMENTAS (BUSCA) ==================== */
+.toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    justify-content: flex-start;
+    /* Alinha o conteúdo à esquerda */
+    align-items: center;
+    /* Centraliza verticalmente */
+    margin-bottom: 20px;
+    /* Espaço entre o formulário e a tabela */
+}
+
+.search-btn {
+    padding: 8px 15px;
+    /* Espaçamento no botão */
+    background-color: #007bff;
+    /* Cor do fundo do botão */
+    color: white;
+    /* Cor da fonte */
+    font-size: 14px;
+    /* Tamanho da fonte */
+    border: none;
+    /* Remove a borda padrão */
+    border-radius: 4px;
+    /* Bordas arredondadas */
+    cursor: pointer;
+    /* Altera o cursor ao passar sobre o botão */
+    transition: background-color 0.3s ease;
+    /* Transição suave para a mudança de cor */
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+    /* Cor do botão ao passar o mouse */
+}
+
+.search-input {
+    width: 300px;
+    /* Largura do campo de busca */
+    padding: 8px 12px;
+    /* Espaçamento dentro do campo */
+    font-size: 14px;
+    /* Tamanho da fonte */
+    border: 1px solid #ccc;
+    /* Borda padrão */
+    border-radius: 4px;
+    /* Bordas arredondadas */
+    margin-right: 10px;
+    /* Espaço entre o campo de pesquisa e o botão */
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(169, 129, 138, 0.2);
+}
+
+/* TABELAS */
+.table-container {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+}
+
+thead th {
+    background-color: #f8f9fa;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+tbody tr:hover {
+    background-color: #fdf8f9;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px; /* Bordas arredondadas */
+    font-size: 0.8rem;   /* Fonte pequena */
+    font-weight: 500;    /* Peso de fonte médio */
+    text-align: center;  /* Centraliza o texto */
+    line-height: 1.5;    /* Alinha verticalmente o texto */
+    min-width: 50px;     /* Define uma largura mínima para o status */
+    height: auto;        /* Deixa a altura automática conforme o conteúdo */
+    margin: 20px 0 0 0;
+}
+
+/* Status "pending" */
+.status.pending {
+    color: #e65100; /* Cor do texto */
+    background-color: #ffe0b2; /* Cor de fundo */
+    border: 1px solid #e65100; /* Borda com a mesma cor */
+}
+
+/* Status "approved" */
+.status.approved {
+    color: #1b5e20; /* Cor do texto */
+    background-color: #c8e6c9; /* Cor de fundo */
+    border: 1px solid #1b5e20; /* Borda com a mesma cor */
+}
+
+/* Status "rejected" */
+.status.rejected {
+    color: #b71c1c; /* Cor do texto */
+    background-color: #ffcdd2; /* Cor de fundo */
+    border: 1px solid #b71c1c; /* Borda com a mesma cor */
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin: 0 5px;
+    color: #888;
+    transition: color 0.2s;
+}
+
+.action-btn.approve-btn:hover {
+    color: #4caf50;
+}
+
+.action-btn.edit-btn:hover {
+    color: var(--primary-color);
+}
+
+.action-btn.delete-btn:hover {
+    color: #f44336;
+}
+
+ .logout-icon {
+    color: #000000;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .logout-icon:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+
+/* FORMULÁRIOS */
+
+.dashboard-form {
+    max-width: 700px;
+    width: 100%;
+    /* Garante que o formulário ocupe toda a largura disponível */
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    margin: 0 auto;
+    /* Centraliza o formulário na tela */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    /* Garante que os inputs estiquem para a largura total */
+    justify-content: flex-start;
+    height: auto;
+    /* Ajusta a altura do formulário conforme o conteúdo */
+    box-sizing: border-box;
+}
+
+.dashboard-form .form-group input,
+.dashboard-form .form-group select {
+    width: 100%;
+    /* Ocupa toda a largura disponível */
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #987079;
+}
+
+.status-select {
+    background-color: #f8f9fa;
+    /* Cor de fundo */
+    border: 1px solid #ced4da;
+    /* Borda leve */
+    padding: 8px 12px;
+    /* Espaçamento interno */
+    font-size: 14px;
+    /* Tamanho da fonte */
+    font-weight: 400;
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    width: auto;
+    /* Largura automática */
+    max-width: 200px;
+    /* Largura máxima */
+    transition: all 0.3s ease;
+    /* Transição suave ao passar o mouse */
+}
+
+.status-select:focus {
+    border-color: #987079;
+    /* Borda azul ao focar */
+    outline: none;
+    /* Remove a borda de foco padrão */
+    box-shadow: 0 0 5px #987079;
+    /* Efeito de sombra */
+}
+
+.status-select:hover {
+    border-color: #987079;
+    /* Borda azul ao focar */
+    outline: none;
+    /* Remove a borda de foco padrão */
+    box-shadow: 0 0 5px #987079;
+    /* Efeito de sombra */
+}
+
+/* Estilo para as opções */
+.status-select option {
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+/* Estilo básico para a paginação */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination-container a,
+.pagination-container span {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.pagination-container a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination-container .active {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination-container .disabled {
+    color: #ccc;
+    pointer-events: none;
+}
+
+/* ==================== RESPONSIVIDADE ==================== */
+@media (max-width: 1200px) {
+    .charts-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 993px) {
+    body {
+        margin-left: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .sidebar {
+        transform: translateX(-260px);
+        width: 260px;
+    }
+
+    body.sidebar-collapsed .sidebar {
+        transform: translateX(0);
+    }
+
+    body.sidebar-collapsed .main-content {
+        margin-left: 0;
+    }
+
+    .sidebar-title,
+    .sidebar-nav span {
+        opacity: 1;
+        /* Garante que o texto seja visível no modo mobile */
+        width: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header {
+        padding: 15px;
+    }
+
+    .page-container {
+        padding: 20px;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .search-input {
+        max-width: 100%;
+    }
+
+    .dashboard-form {
+        padding: 20px;
+        width: 90%;
+        /* Torna o formulário um pouco mais estreito em telas menores */
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
